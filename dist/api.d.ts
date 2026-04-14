@@ -61,112 +61,6 @@ export declare class RequiredError extends Error {
     constructor(field: string, msg?: string);
 }
 /**
- * 정답 추측 요청
- * @export
- * @interface AppApiRoutesSimilarityGuessRequest
- */
-export interface AppApiRoutesSimilarityGuessRequest {
-    /**
-     *
-     * @type {any}
-     * @memberof AppApiRoutesSimilarityGuessRequest
-     */
-    date?: any;
-    /**
-     *
-     * @type {string}
-     * @memberof AppApiRoutesSimilarityGuessRequest
-     */
-    word: string;
-}
-/**
- * 정답 추측 응답
- * @export
- * @interface AppApiRoutesSimilarityGuessResponse
- */
-export interface AppApiRoutesSimilarityGuessResponse {
-    /**
-     *
-     * @type {string}
-     * @memberof AppApiRoutesSimilarityGuessResponse
-     */
-    date: string;
-    /**
-     *
-     * @type {string}
-     * @memberof AppApiRoutesSimilarityGuessResponse
-     */
-    guess: string;
-    /**
-     *
-     * @type {string}
-     * @memberof AppApiRoutesSimilarityGuessResponse
-     */
-    secretWord: string;
-    /**
-     *
-     * @type {number}
-     * @memberof AppApiRoutesSimilarityGuessResponse
-     */
-    similarity: number;
-}
-/**
- *
- * @export
- * @interface AppSchemasGameGuessRequest
- */
-export interface AppSchemasGameGuessRequest {
-    /**
-     *
-     * @type {string}
-     * @memberof AppSchemasGameGuessRequest
-     */
-    word: string;
-}
-/**
- *
- * @export
- * @interface AppSchemasGameGuessResponse
- */
-export interface AppSchemasGameGuessResponse {
-    /**
-     *
-     * @type {number}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    bestSimilarity: number;
-    /**
-     *
-     * @type {string}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    closestWord: string;
-    /**
-     *
-     * @type {number}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    gameRank: number;
-    /**
-     *
-     * @type {boolean}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    isCorrect: boolean;
-    /**
-     *
-     * @type {number}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    similarity: number;
-    /**
-     *
-     * @type {string}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    word: string;
-}
-/**
  *
  * @export
  * @interface CreateGameRequest
@@ -209,31 +103,37 @@ export interface CreateGameResponse {
      * @memberof CreateGameResponse
      */
     gameId: number;
+    /**
+     *
+     * @type {string}
+     * @memberof CreateGameResponse
+     */
+    sessionId: string;
 }
 /**
  *
  * @export
- * @interface GamePollingResponse
+ * @interface GameInfoResponse
  */
-export interface GamePollingResponse {
+export interface GameInfoResponse {
     /**
      *
-     * @type {string}
-     * @memberof GamePollingResponse
+     * @type {any}
+     * @memberof GameInfoResponse
      */
-    gameStatus: string;
+    endAt: any;
     /**
      *
-     * @type {Array<LeaderboardEntry>}
-     * @memberof GamePollingResponse
+     * @type {any}
+     * @memberof GameInfoResponse
      */
-    leaderboard: Array<LeaderboardEntry>;
+    startAt: any;
     /**
      *
-     * @type {number}
-     * @memberof GamePollingResponse
+     * @type {Array<UserInfo>}
+     * @memberof GameInfoResponse
      */
-    participationCount: number;
+    users: Array<UserInfo>;
 }
 /**
  *
@@ -269,27 +169,83 @@ export interface GameResultResponse {
 /**
  *
  * @export
- * @interface GameStatusResponse
+ * @interface GuessHistoryItem
  */
-export interface GameStatusResponse {
+export interface GuessHistoryItem {
     /**
      *
-     * @type {number}
-     * @memberof GameStatusResponse
+     * @type {boolean}
+     * @memberof GuessHistoryItem
      */
-    gameId: number;
+    isAnswer: boolean;
     /**
      *
      * @type {string}
-     * @memberof GameStatusResponse
+     * @memberof GuessHistoryItem
      */
-    gameStatus: string;
+    label: string;
     /**
      *
      * @type {number}
-     * @memberof GameStatusResponse
+     * @memberof GuessHistoryItem
      */
-    participationCount: number;
+    rank: number;
+    /**
+     *
+     * @type {number}
+     * @memberof GuessHistoryItem
+     */
+    similarity: number;
+}
+/**
+ *
+ * @export
+ * @interface GuessRequest
+ */
+export interface GuessRequest {
+    /**
+     *
+     * @type {string}
+     * @memberof GuessRequest
+     */
+    username: string;
+    /**
+     *
+     * @type {string}
+     * @memberof GuessRequest
+     */
+    word: string;
+}
+/**
+ *
+ * @export
+ * @interface GuessResponse
+ */
+export interface GuessResponse {
+    /**
+     *
+     * @type {boolean}
+     * @memberof GuessResponse
+     */
+    isAnswer: boolean;
+    /**
+     *
+     * @type {string}
+     * @memberof GuessResponse
+     */
+    label: string;
+    /**
+     *
+     * @type {number}
+     * @memberof GuessResponse
+     */
+    rank: number;
+    /**
+     *
+     * @type {number}
+     * @memberof GuessResponse
+     */
+    similarity: number;
 }
 /**
  *
@@ -335,50 +291,12 @@ export interface JoinGameResponse {
      * @memberof JoinGameResponse
      */
     nickname: string;
-}
-/**
- *
- * @export
- * @interface LeaderboardEntry
- */
-export interface LeaderboardEntry {
-    /**
-     *
-     * @type {number}
-     * @memberof LeaderboardEntry
-     */
-    bestSimilarity: number;
-    /**
-     *
-     * @type {any}
-     * @memberof LeaderboardEntry
-     */
-    closestWord: any;
     /**
      *
      * @type {string}
-     * @memberof LeaderboardEntry
+     * @memberof JoinGameResponse
      */
-    nickname: string;
-    /**
-     *
-     * @type {number}
-     * @memberof LeaderboardEntry
-     */
-    rank: number;
-}
-/**
- *
- * @export
- * @interface LeaderboardResponse
- */
-export interface LeaderboardResponse {
-    /**
-     *
-     * @type {Array<LeaderboardEntry>}
-     * @memberof LeaderboardResponse
-     */
-    leaderboard: Array<LeaderboardEntry>;
+    sessionId: string;
 }
 /**
  *
@@ -444,50 +362,6 @@ export interface ParticipantResult {
     rank: number;
 }
 /**
- * 두 단어 유사도 계산 요청
- * @export
- * @interface SimilarityRequest
- */
-export interface SimilarityRequest {
-    /**
-     *
-     * @type {string}
-     * @memberof SimilarityRequest
-     */
-    word1: string;
-    /**
-     *
-     * @type {string}
-     * @memberof SimilarityRequest
-     */
-    word2: string;
-}
-/**
- * 유사도 계산 응답
- * @export
- * @interface SimilarityResponse
- */
-export interface SimilarityResponse {
-    /**
-     *
-     * @type {number}
-     * @memberof SimilarityResponse
-     */
-    similarity: number;
-    /**
-     *
-     * @type {string}
-     * @memberof SimilarityResponse
-     */
-    word1: string;
-    /**
-     *
-     * @type {string}
-     * @memberof SimilarityResponse
-     */
-    word2: string;
-}
-/**
  *
  * @export
  * @interface UpdateEndtimeRequest
@@ -518,6 +392,31 @@ export interface UpdateWordRequest {
      * @memberof UpdateWordRequest
      */
     targetWord: string;
+}
+/**
+ *
+ * @export
+ * @interface UserInfo
+ */
+export interface UserInfo {
+    /**
+     *
+     * @type {number}
+     * @memberof UserInfo
+     */
+    bestSimilarity: number;
+    /**
+     *
+     * @type {string}
+     * @memberof UserInfo
+     */
+    name: string;
+    /**
+     *
+     * @type {number}
+     * @memberof UserInfo
+     */
+    rank: number;
 }
 /**
  *
@@ -555,6 +454,65 @@ export interface ValidationError {
      * @memberof ValidationError
      */
     type: string;
+}
+/**
+ * AuthApi - fetch parameter creator
+ * @export
+ */
+export declare const AuthApiFetchParamCreator: (configuration?: Configuration) => {
+    /**
+     * 세션ID(토큰) 유효성 검사
+     * @summary Validate Token
+     * @param {string} authorization
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    validateTokenAuthValidateGet(authorization: string, options?: any): FetchArgs;
+};
+/**
+ * AuthApi - functional programming interface
+ * @export
+ */
+export declare const AuthApiFp: (configuration?: Configuration) => {
+    /**
+     * 세션ID(토큰) 유효성 검사
+     * @summary Validate Token
+     * @param {string} authorization
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    validateTokenAuthValidateGet(authorization: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any>;
+};
+/**
+ * AuthApi - factory interface
+ * @export
+ */
+export declare const AuthApiFactory: (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) => {
+    /**
+     * 세션ID(토큰) 유효성 검사
+     * @summary Validate Token
+     * @param {string} authorization
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    validateTokenAuthValidateGet(authorization: string, options?: any): Promise<any>;
+};
+/**
+ * AuthApi - object-oriented interface
+ * @export
+ * @class AuthApi
+ * @extends {BaseAPI}
+ */
+export declare class AuthApi extends BaseAPI {
+    /**
+     * 세션ID(토큰) 유효성 검사
+     * @summary Validate Token
+     * @param {string} authorization
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    validateTokenAuthValidateGet(authorization: string, options?: any): Promise<any>;
 }
 /**
  * DefaultApi - fetch parameter creator
@@ -612,10 +570,10 @@ export declare class DefaultApi extends BaseAPI {
     rootGet(options?: any): Promise<any>;
 }
 /**
- * GamesApi - fetch parameter creator
+ * GamesV1Api - fetch parameter creator
  * @export
  */
-export declare const GamesApiFetchParamCreator: (configuration?: Configuration) => {
+export declare const GamesV1ApiFetchParamCreator: (configuration?: Configuration) => {
     /**
      *
      * @summary Create Game
@@ -623,89 +581,76 @@ export declare const GamesApiFetchParamCreator: (configuration?: Configuration) 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createGameApiGamesPost(body: CreateGameRequest, options?: any): FetchArgs;
+    createGameApiV1GamesPost(body: CreateGameRequest, options?: any): FetchArgs;
     /**
      *
      * @summary End Game
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    endGameApiGamesGameIdEndPost(gameId: number, options?: any): FetchArgs;
+    endGameApiV1GamesEndPost(options?: any): FetchArgs;
     /**
      *
      * @summary Game Polling
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gamePollingApiGamesGameIdPollingGet(gameId: number, options?: any): FetchArgs;
+    gamePollingApiV1GamesPollingGet(options?: any): FetchArgs;
     /**
      *
      * @summary Game Result
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gameResultApiGamesGameIdResultGet(gameId: number, options?: any): FetchArgs;
+    gameResultApiV1GamesResultGet(options?: any): FetchArgs;
     /**
      *
-     * @summary Game Status
-     * @param {number} gameId
+     * @summary Get Guess History
+     * @param {string} username
+     * @param {string} authorization
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gameStatusApiGamesGameIdStatusGet(gameId: number, options?: any): FetchArgs;
+    getGuessHistoryApiV1GamesGuessesGet(username: string, authorization: string, options?: any): FetchArgs;
     /**
      *
      * @summary Guess Word
-     * @param {number} gameId
-     * @param {AppSchemasGameGuessRequest} body
+     * @param {string} authorization
+     * @param {GuessRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    guessWordApiGamesGameIdGuessPost(gameId: number, body: AppSchemasGameGuessRequest, options?: any): FetchArgs;
+    guessWordApiV1GamesGuessPost(authorization: string, body: GuessRequest, options?: any): FetchArgs;
     /**
      *
      * @summary Join Game
-     * @param {number} gameId
      * @param {JoinGameRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    joinGameApiGamesGameIdJoinPost(gameId: number, body: JoinGameRequest, options?: any): FetchArgs;
-    /**
-     *
-     * @summary Leaderboard
-     * @param {number} gameId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    leaderboardApiGamesGameIdLeaderboardGet(gameId: number, options?: any): FetchArgs;
+    joinGameApiV1GamesJoinPost(body: JoinGameRequest, options?: any): FetchArgs;
     /**
      *
      * @summary Update Endtime
-     * @param {number} gameId
      * @param {UpdateEndtimeRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateEndtimeApiGamesGameIdEndtimePatch(gameId: number, body: UpdateEndtimeRequest, options?: any): FetchArgs;
+    updateEndtimeApiV1GamesTimePatch(body: UpdateEndtimeRequest, options?: any): FetchArgs;
     /**
      *
      * @summary Update Word
-     * @param {number} gameId
      * @param {UpdateWordRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateWordApiGamesGameIdWordPatch(gameId: number, body: UpdateWordRequest, options?: any): FetchArgs;
+    updateWordApiV1GamesWordPatch(body: UpdateWordRequest, options?: any): FetchArgs;
 };
 /**
- * GamesApi - functional programming interface
+ * GamesV1Api - functional programming interface
  * @export
  */
-export declare const GamesApiFp: (configuration?: Configuration) => {
+export declare const GamesV1ApiFp: (configuration?: Configuration) => {
     /**
      *
      * @summary Create Game
@@ -713,89 +658,76 @@ export declare const GamesApiFp: (configuration?: Configuration) => {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createGameApiGamesPost(body: CreateGameRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CreateGameResponse>;
+    createGameApiV1GamesPost(body: CreateGameRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CreateGameResponse>;
     /**
      *
      * @summary End Game
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    endGameApiGamesGameIdEndPost(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse>;
+    endGameApiV1GamesEndPost(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse>;
     /**
      *
      * @summary Game Polling
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gamePollingApiGamesGameIdPollingGet(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GamePollingResponse>;
+    gamePollingApiV1GamesPollingGet(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GameInfoResponse>;
     /**
      *
      * @summary Game Result
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gameResultApiGamesGameIdResultGet(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GameResultResponse>;
+    gameResultApiV1GamesResultGet(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GameResultResponse>;
     /**
      *
-     * @summary Game Status
-     * @param {number} gameId
+     * @summary Get Guess History
+     * @param {string} username
+     * @param {string} authorization
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gameStatusApiGamesGameIdStatusGet(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GameStatusResponse>;
+    getGuessHistoryApiV1GamesGuessesGet(username: string, authorization: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<GuessHistoryItem>>;
     /**
      *
      * @summary Guess Word
-     * @param {number} gameId
-     * @param {AppSchemasGameGuessRequest} body
+     * @param {string} authorization
+     * @param {GuessRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    guessWordApiGamesGameIdGuessPost(gameId: number, body: AppSchemasGameGuessRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<AppSchemasGameGuessResponse>;
+    guessWordApiV1GamesGuessPost(authorization: string, body: GuessRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GuessResponse>;
     /**
      *
      * @summary Join Game
-     * @param {number} gameId
      * @param {JoinGameRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    joinGameApiGamesGameIdJoinPost(gameId: number, body: JoinGameRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<JoinGameResponse>;
-    /**
-     *
-     * @summary Leaderboard
-     * @param {number} gameId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    leaderboardApiGamesGameIdLeaderboardGet(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<LeaderboardResponse>;
+    joinGameApiV1GamesJoinPost(body: JoinGameRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<JoinGameResponse>;
     /**
      *
      * @summary Update Endtime
-     * @param {number} gameId
      * @param {UpdateEndtimeRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateEndtimeApiGamesGameIdEndtimePatch(gameId: number, body: UpdateEndtimeRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse>;
+    updateEndtimeApiV1GamesTimePatch(body: UpdateEndtimeRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse>;
     /**
      *
      * @summary Update Word
-     * @param {number} gameId
      * @param {UpdateWordRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateWordApiGamesGameIdWordPatch(gameId: number, body: UpdateWordRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse>;
+    updateWordApiV1GamesWordPatch(body: UpdateWordRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse>;
 };
 /**
- * GamesApi - factory interface
+ * GamesV1Api - factory interface
  * @export
  */
-export declare const GamesApiFactory: (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) => {
+export declare const GamesV1ApiFactory: (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) => {
     /**
      *
      * @summary Create Game
@@ -803,185 +735,158 @@ export declare const GamesApiFactory: (configuration?: Configuration, fetch?: Fe
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createGameApiGamesPost(body: CreateGameRequest, options?: any): Promise<CreateGameResponse>;
+    createGameApiV1GamesPost(body: CreateGameRequest, options?: any): Promise<CreateGameResponse>;
     /**
      *
      * @summary End Game
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    endGameApiGamesGameIdEndPost(gameId: number, options?: any): Promise<MessageResponse>;
+    endGameApiV1GamesEndPost(options?: any): Promise<MessageResponse>;
     /**
      *
      * @summary Game Polling
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gamePollingApiGamesGameIdPollingGet(gameId: number, options?: any): Promise<GamePollingResponse>;
+    gamePollingApiV1GamesPollingGet(options?: any): Promise<GameInfoResponse>;
     /**
      *
      * @summary Game Result
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gameResultApiGamesGameIdResultGet(gameId: number, options?: any): Promise<GameResultResponse>;
+    gameResultApiV1GamesResultGet(options?: any): Promise<GameResultResponse>;
     /**
      *
-     * @summary Game Status
-     * @param {number} gameId
+     * @summary Get Guess History
+     * @param {string} username
+     * @param {string} authorization
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    gameStatusApiGamesGameIdStatusGet(gameId: number, options?: any): Promise<GameStatusResponse>;
+    getGuessHistoryApiV1GamesGuessesGet(username: string, authorization: string, options?: any): Promise<GuessHistoryItem[]>;
     /**
      *
      * @summary Guess Word
-     * @param {number} gameId
-     * @param {AppSchemasGameGuessRequest} body
+     * @param {string} authorization
+     * @param {GuessRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    guessWordApiGamesGameIdGuessPost(gameId: number, body: AppSchemasGameGuessRequest, options?: any): Promise<AppSchemasGameGuessResponse>;
+    guessWordApiV1GamesGuessPost(authorization: string, body: GuessRequest, options?: any): Promise<GuessResponse>;
     /**
      *
      * @summary Join Game
-     * @param {number} gameId
      * @param {JoinGameRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    joinGameApiGamesGameIdJoinPost(gameId: number, body: JoinGameRequest, options?: any): Promise<JoinGameResponse>;
-    /**
-     *
-     * @summary Leaderboard
-     * @param {number} gameId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    leaderboardApiGamesGameIdLeaderboardGet(gameId: number, options?: any): Promise<LeaderboardResponse>;
+    joinGameApiV1GamesJoinPost(body: JoinGameRequest, options?: any): Promise<JoinGameResponse>;
     /**
      *
      * @summary Update Endtime
-     * @param {number} gameId
      * @param {UpdateEndtimeRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateEndtimeApiGamesGameIdEndtimePatch(gameId: number, body: UpdateEndtimeRequest, options?: any): Promise<MessageResponse>;
+    updateEndtimeApiV1GamesTimePatch(body: UpdateEndtimeRequest, options?: any): Promise<MessageResponse>;
     /**
      *
      * @summary Update Word
-     * @param {number} gameId
      * @param {UpdateWordRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateWordApiGamesGameIdWordPatch(gameId: number, body: UpdateWordRequest, options?: any): Promise<MessageResponse>;
+    updateWordApiV1GamesWordPatch(body: UpdateWordRequest, options?: any): Promise<MessageResponse>;
 };
 /**
- * GamesApi - object-oriented interface
+ * GamesV1Api - object-oriented interface
  * @export
- * @class GamesApi
+ * @class GamesV1Api
  * @extends {BaseAPI}
  */
-export declare class GamesApi extends BaseAPI {
+export declare class GamesV1Api extends BaseAPI {
     /**
      *
      * @summary Create Game
      * @param {CreateGameRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    createGameApiGamesPost(body: CreateGameRequest, options?: any): Promise<CreateGameResponse>;
+    createGameApiV1GamesPost(body: CreateGameRequest, options?: any): Promise<CreateGameResponse>;
     /**
      *
      * @summary End Game
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    endGameApiGamesGameIdEndPost(gameId: number, options?: any): Promise<MessageResponse>;
+    endGameApiV1GamesEndPost(options?: any): Promise<MessageResponse>;
     /**
      *
      * @summary Game Polling
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    gamePollingApiGamesGameIdPollingGet(gameId: number, options?: any): Promise<GamePollingResponse>;
+    gamePollingApiV1GamesPollingGet(options?: any): Promise<GameInfoResponse>;
     /**
      *
      * @summary Game Result
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    gameResultApiGamesGameIdResultGet(gameId: number, options?: any): Promise<GameResultResponse>;
+    gameResultApiV1GamesResultGet(options?: any): Promise<GameResultResponse>;
     /**
      *
-     * @summary Game Status
-     * @param {number} gameId
+     * @summary Get Guess History
+     * @param {string} username
+     * @param {string} authorization
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    gameStatusApiGamesGameIdStatusGet(gameId: number, options?: any): Promise<GameStatusResponse>;
+    getGuessHistoryApiV1GamesGuessesGet(username: string, authorization: string, options?: any): Promise<GuessHistoryItem[]>;
     /**
      *
      * @summary Guess Word
-     * @param {number} gameId
-     * @param {AppSchemasGameGuessRequest} body
+     * @param {string} authorization
+     * @param {GuessRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    guessWordApiGamesGameIdGuessPost(gameId: number, body: AppSchemasGameGuessRequest, options?: any): Promise<AppSchemasGameGuessResponse>;
+    guessWordApiV1GamesGuessPost(authorization: string, body: GuessRequest, options?: any): Promise<GuessResponse>;
     /**
      *
      * @summary Join Game
-     * @param {number} gameId
      * @param {JoinGameRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    joinGameApiGamesGameIdJoinPost(gameId: number, body: JoinGameRequest, options?: any): Promise<JoinGameResponse>;
-    /**
-     *
-     * @summary Leaderboard
-     * @param {number} gameId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof GamesApi
-     */
-    leaderboardApiGamesGameIdLeaderboardGet(gameId: number, options?: any): Promise<LeaderboardResponse>;
+    joinGameApiV1GamesJoinPost(body: JoinGameRequest, options?: any): Promise<JoinGameResponse>;
     /**
      *
      * @summary Update Endtime
-     * @param {number} gameId
      * @param {UpdateEndtimeRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    updateEndtimeApiGamesGameIdEndtimePatch(gameId: number, body: UpdateEndtimeRequest, options?: any): Promise<MessageResponse>;
+    updateEndtimeApiV1GamesTimePatch(body: UpdateEndtimeRequest, options?: any): Promise<MessageResponse>;
     /**
      *
      * @summary Update Word
-     * @param {number} gameId
      * @param {UpdateWordRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    updateWordApiGamesGameIdWordPatch(gameId: number, body: UpdateWordRequest, options?: any): Promise<MessageResponse>;
+    updateWordApiV1GamesWordPatch(body: UpdateWordRequest, options?: any): Promise<MessageResponse>;
 }
 /**
  * HealthApi - fetch parameter creator
@@ -1039,104 +944,12 @@ export declare class HealthApi extends BaseAPI {
     healthCheckHealthGet(options?: any): Promise<any>;
 }
 /**
- * SimilarityApi - fetch parameter creator
- * @export
- */
-export declare const SimilarityApiFetchParamCreator: (configuration?: Configuration) => {
-    /**
-     * 두 단어의 유사도를 계산합니다.
-     * @summary Calculate Similarity
-     * @param {SimilarityRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    calculateSimilarityApiSimilarityPost(body: SimilarityRequest, options?: any): FetchArgs;
-    /**
-     * 정답 단어를 추측합니다.
-     * @summary Guess Secret Word
-     * @param {AppApiRoutesSimilarityGuessRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    guessSecretWordApiSimilarityGuessPost(body: AppApiRoutesSimilarityGuessRequest, options?: any): FetchArgs;
-};
-/**
- * SimilarityApi - functional programming interface
- * @export
- */
-export declare const SimilarityApiFp: (configuration?: Configuration) => {
-    /**
-     * 두 단어의 유사도를 계산합니다.
-     * @summary Calculate Similarity
-     * @param {SimilarityRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    calculateSimilarityApiSimilarityPost(body: SimilarityRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<SimilarityResponse>;
-    /**
-     * 정답 단어를 추측합니다.
-     * @summary Guess Secret Word
-     * @param {AppApiRoutesSimilarityGuessRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    guessSecretWordApiSimilarityGuessPost(body: AppApiRoutesSimilarityGuessRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<AppApiRoutesSimilarityGuessResponse>;
-};
-/**
- * SimilarityApi - factory interface
- * @export
- */
-export declare const SimilarityApiFactory: (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) => {
-    /**
-     * 두 단어의 유사도를 계산합니다.
-     * @summary Calculate Similarity
-     * @param {SimilarityRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    calculateSimilarityApiSimilarityPost(body: SimilarityRequest, options?: any): Promise<SimilarityResponse>;
-    /**
-     * 정답 단어를 추측합니다.
-     * @summary Guess Secret Word
-     * @param {AppApiRoutesSimilarityGuessRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    guessSecretWordApiSimilarityGuessPost(body: AppApiRoutesSimilarityGuessRequest, options?: any): Promise<AppApiRoutesSimilarityGuessResponse>;
-};
-/**
- * SimilarityApi - object-oriented interface
- * @export
- * @class SimilarityApi
- * @extends {BaseAPI}
- */
-export declare class SimilarityApi extends BaseAPI {
-    /**
-     * 두 단어의 유사도를 계산합니다.
-     * @summary Calculate Similarity
-     * @param {SimilarityRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimilarityApi
-     */
-    calculateSimilarityApiSimilarityPost(body: SimilarityRequest, options?: any): Promise<SimilarityResponse>;
-    /**
-     * 정답 단어를 추측합니다.
-     * @summary Guess Secret Word
-     * @param {AppApiRoutesSimilarityGuessRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimilarityApi
-     */
-    guessSecretWordApiSimilarityGuessPost(body: AppApiRoutesSimilarityGuessRequest, options?: any): Promise<AppApiRoutesSimilarityGuessResponse>;
-}
-/**
  * UsersApi - fetch parameter creator
  * @export
  */
 export declare const UsersApiFetchParamCreator: (configuration?: Configuration) => {
     /**
-     * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+     * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
      * @summary Check Nickname
      * @param {string} nickname 확인할 닉네임
      * @param {*} [options] Override http request option.
@@ -1150,7 +963,7 @@ export declare const UsersApiFetchParamCreator: (configuration?: Configuration) 
  */
 export declare const UsersApiFp: (configuration?: Configuration) => {
     /**
-     * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+     * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
      * @summary Check Nickname
      * @param {string} nickname 확인할 닉네임
      * @param {*} [options] Override http request option.
@@ -1164,7 +977,7 @@ export declare const UsersApiFp: (configuration?: Configuration) => {
  */
 export declare const UsersApiFactory: (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) => {
     /**
-     * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+     * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
      * @summary Check Nickname
      * @param {string} nickname 확인할 닉네임
      * @param {*} [options] Override http request option.
@@ -1180,7 +993,7 @@ export declare const UsersApiFactory: (configuration?: Configuration, fetch?: Fe
  */
 export declare class UsersApi extends BaseAPI {
     /**
-     * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+     * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
      * @summary Check Nickname
      * @param {string} nickname 확인할 닉네임
      * @param {*} [options] Override http request option.

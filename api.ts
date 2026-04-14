@@ -79,116 +79,6 @@ export class RequiredError extends Error {
 }
 
 /**
- * 정답 추측 요청
- * @export
- * @interface AppApiRoutesSimilarityGuessRequest
- */
-export interface AppApiRoutesSimilarityGuessRequest {
-    /**
-     * 
-     * @type {any}
-     * @memberof AppApiRoutesSimilarityGuessRequest
-     */
-    date?: any;
-    /**
-     * 
-     * @type {string}
-     * @memberof AppApiRoutesSimilarityGuessRequest
-     */
-    word: string;
-}
-
-/**
- * 정답 추측 응답
- * @export
- * @interface AppApiRoutesSimilarityGuessResponse
- */
-export interface AppApiRoutesSimilarityGuessResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof AppApiRoutesSimilarityGuessResponse
-     */
-    date: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AppApiRoutesSimilarityGuessResponse
-     */
-    guess: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AppApiRoutesSimilarityGuessResponse
-     */
-    secretWord: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AppApiRoutesSimilarityGuessResponse
-     */
-    similarity: number;
-}
-
-/**
- * 
- * @export
- * @interface AppSchemasGameGuessRequest
- */
-export interface AppSchemasGameGuessRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof AppSchemasGameGuessRequest
-     */
-    word: string;
-}
-
-/**
- * 
- * @export
- * @interface AppSchemasGameGuessResponse
- */
-export interface AppSchemasGameGuessResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    bestSimilarity: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    closestWord: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    gameRank: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    isCorrect: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    similarity: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AppSchemasGameGuessResponse
-     */
-    word: string;
-}
-
-/**
  * 
  * @export
  * @interface CreateGameRequest
@@ -232,32 +122,38 @@ export interface CreateGameResponse {
      * @memberof CreateGameResponse
      */
     gameId: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateGameResponse
+     */
+    sessionId: string;
 }
 
 /**
  * 
  * @export
- * @interface GamePollingResponse
+ * @interface GameInfoResponse
  */
-export interface GamePollingResponse {
+export interface GameInfoResponse {
     /**
      * 
-     * @type {string}
-     * @memberof GamePollingResponse
+     * @type {any}
+     * @memberof GameInfoResponse
      */
-    gameStatus: string;
+    endAt: any;
     /**
      * 
-     * @type {Array<LeaderboardEntry>}
-     * @memberof GamePollingResponse
+     * @type {any}
+     * @memberof GameInfoResponse
      */
-    leaderboard: Array<LeaderboardEntry>;
+    startAt: any;
     /**
      * 
-     * @type {number}
-     * @memberof GamePollingResponse
+     * @type {Array<UserInfo>}
+     * @memberof GameInfoResponse
      */
-    participationCount: number;
+    users: Array<UserInfo>;
 }
 
 /**
@@ -295,27 +191,85 @@ export interface GameResultResponse {
 /**
  * 
  * @export
- * @interface GameStatusResponse
+ * @interface GuessHistoryItem
  */
-export interface GameStatusResponse {
+export interface GuessHistoryItem {
     /**
      * 
-     * @type {number}
-     * @memberof GameStatusResponse
+     * @type {boolean}
+     * @memberof GuessHistoryItem
      */
-    gameId: number;
+    isAnswer: boolean;
     /**
      * 
      * @type {string}
-     * @memberof GameStatusResponse
+     * @memberof GuessHistoryItem
      */
-    gameStatus: string;
+    label: string;
     /**
      * 
      * @type {number}
-     * @memberof GameStatusResponse
+     * @memberof GuessHistoryItem
      */
-    participationCount: number;
+    rank: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GuessHistoryItem
+     */
+    similarity: number;
+}
+
+/**
+ * 
+ * @export
+ * @interface GuessRequest
+ */
+export interface GuessRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof GuessRequest
+     */
+    username: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GuessRequest
+     */
+    word: string;
+}
+
+/**
+ * 
+ * @export
+ * @interface GuessResponse
+ */
+export interface GuessResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof GuessResponse
+     */
+    isAnswer: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GuessResponse
+     */
+    label: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof GuessResponse
+     */
+    rank: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GuessResponse
+     */
+    similarity: number;
 }
 
 /**
@@ -364,52 +318,12 @@ export interface JoinGameResponse {
      * @memberof JoinGameResponse
      */
     nickname: string;
-}
-
-/**
- * 
- * @export
- * @interface LeaderboardEntry
- */
-export interface LeaderboardEntry {
-    /**
-     * 
-     * @type {number}
-     * @memberof LeaderboardEntry
-     */
-    bestSimilarity: number;
-    /**
-     * 
-     * @type {any}
-     * @memberof LeaderboardEntry
-     */
-    closestWord: any;
     /**
      * 
      * @type {string}
-     * @memberof LeaderboardEntry
+     * @memberof JoinGameResponse
      */
-    nickname: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof LeaderboardEntry
-     */
-    rank: number;
-}
-
-/**
- * 
- * @export
- * @interface LeaderboardResponse
- */
-export interface LeaderboardResponse {
-    /**
-     * 
-     * @type {Array<LeaderboardEntry>}
-     * @memberof LeaderboardResponse
-     */
-    leaderboard: Array<LeaderboardEntry>;
+    sessionId: string;
 }
 
 /**
@@ -479,52 +393,6 @@ export interface ParticipantResult {
 }
 
 /**
- * 두 단어 유사도 계산 요청
- * @export
- * @interface SimilarityRequest
- */
-export interface SimilarityRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof SimilarityRequest
-     */
-    word1: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimilarityRequest
-     */
-    word2: string;
-}
-
-/**
- * 유사도 계산 응답
- * @export
- * @interface SimilarityResponse
- */
-export interface SimilarityResponse {
-    /**
-     * 
-     * @type {number}
-     * @memberof SimilarityResponse
-     */
-    similarity: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimilarityResponse
-     */
-    word1: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimilarityResponse
-     */
-    word2: string;
-}
-
-/**
  * 
  * @export
  * @interface UpdateEndtimeRequest
@@ -556,6 +424,32 @@ export interface UpdateWordRequest {
      * @memberof UpdateWordRequest
      */
     targetWord: string;
+}
+
+/**
+ * 
+ * @export
+ * @interface UserInfo
+ */
+export interface UserInfo {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserInfo
+     */
+    bestSimilarity: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserInfo
+     */
+    name: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserInfo
+     */
+    rank: number;
 }
 
 /**
@@ -596,6 +490,115 @@ export interface ValidationError {
     type: string;
 }
 
+
+/**
+ * AuthApi - fetch parameter creator
+ * @export
+ */
+export const AuthApiFetchParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 세션ID(토큰) 유효성 검사
+         * @summary Validate Token
+         * @param {string} authorization 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateTokenAuthValidateGet(authorization: string, options: any = {}): FetchArgs {
+            // verify required parameter 'authorization' is not null or undefined
+            if (authorization === null || authorization === undefined) {
+                throw new RequiredError('authorization','Required parameter authorization was null or undefined when calling validateTokenAuthValidateGet.');
+            }
+            const localVarPath = `/auth/validate`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AuthApi - functional programming interface
+ * @export
+ */
+export const AuthApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         * 세션ID(토큰) 유효성 검사
+         * @summary Validate Token
+         * @param {string} authorization 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateTokenAuthValidateGet(authorization: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const localVarFetchArgs = AuthApiFetchParamCreator(configuration).validateTokenAuthValidateGet(authorization, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+    }
+};
+
+/**
+ * AuthApi - factory interface
+ * @export
+ */
+export const AuthApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 세션ID(토큰) 유효성 검사
+         * @summary Validate Token
+         * @param {string} authorization 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateTokenAuthValidateGet(authorization: string, options?: any) {
+            return AuthApiFp(configuration).validateTokenAuthValidateGet(authorization, options)(fetch, basePath);
+        },
+    };
+};
+
+/**
+ * AuthApi - object-oriented interface
+ * @export
+ * @class AuthApi
+ * @extends {BaseAPI}
+ */
+export class AuthApi extends BaseAPI {
+    /**
+     * 세션ID(토큰) 유효성 검사
+     * @summary Validate Token
+     * @param {string} authorization 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public validateTokenAuthValidateGet(authorization: string, options?: any) {
+        return AuthApiFp(this.configuration).validateTokenAuthValidateGet(authorization, options)(this.fetch, this.basePath);
+    }
+
+}
 
 /**
  * DefaultApi - fetch parameter creator
@@ -695,10 +698,10 @@ export class DefaultApi extends BaseAPI {
 }
 
 /**
- * GamesApi - fetch parameter creator
+ * GamesV1Api - fetch parameter creator
  * @export
  */
-export const GamesApiFetchParamCreator = function (configuration?: Configuration) {
+export const GamesV1ApiFetchParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -707,12 +710,12 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createGameApiGamesPost(body: CreateGameRequest, options: any = {}): FetchArgs {
+        createGameApiV1GamesPost(body: CreateGameRequest, options: any = {}): FetchArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createGameApiGamesPost.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createGameApiV1GamesPost.');
             }
-            const localVarPath = `/api/games`;
+            const localVarPath = `/api/v1/games`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
@@ -735,17 +738,11 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary End Game
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        endGameApiGamesGameIdEndPost(gameId: number, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling endGameApiGamesGameIdEndPost.');
-            }
-            const localVarPath = `/api/games/{game_id}/end`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
+        endGameApiV1GamesEndPost(options: any = {}): FetchArgs {
+            const localVarPath = `/api/v1/games/end`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
@@ -764,17 +761,11 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Game Polling
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gamePollingApiGamesGameIdPollingGet(gameId: number, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling gamePollingApiGamesGameIdPollingGet.');
-            }
-            const localVarPath = `/api/games/{game_id}/polling`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
+        gamePollingApiV1GamesPollingGet(options: any = {}): FetchArgs {
+            const localVarPath = `/api/v1/games/polling`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             const localVarHeaderParameter = {} as any;
@@ -793,17 +784,11 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Game Result
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameResultApiGamesGameIdResultGet(gameId: number, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling gameResultApiGamesGameIdResultGet.');
-            }
-            const localVarPath = `/api/games/{game_id}/result`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
+        gameResultApiV1GamesResultGet(options: any = {}): FetchArgs {
+            const localVarPath = `/api/v1/games/result`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             const localVarHeaderParameter = {} as any;
@@ -821,22 +806,34 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @summary Game Status
-         * @param {number} gameId 
+         * @summary Get Guess History
+         * @param {string} username 
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameStatusApiGamesGameIdStatusGet(gameId: number, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling gameStatusApiGamesGameIdStatusGet.');
+        getGuessHistoryApiV1GamesGuessesGet(username: string, authorization: string, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling getGuessHistoryApiV1GamesGuessesGet.');
             }
-            const localVarPath = `/api/games/{game_id}/status`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
+            // verify required parameter 'authorization' is not null or undefined
+            if (authorization === null || authorization === undefined) {
+                throw new RequiredError('authorization','Required parameter authorization was null or undefined when calling getGuessHistoryApiV1GamesGuessesGet.');
+            }
+            const localVarPath = `/api/v1/games/guesses`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (username !== undefined) {
+                localVarQueryParameter['username'] = username;
+            }
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
@@ -851,26 +848,29 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Guess Word
-         * @param {number} gameId 
-         * @param {AppSchemasGameGuessRequest} body 
+         * @param {string} authorization 
+         * @param {GuessRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        guessWordApiGamesGameIdGuessPost(gameId: number, body: AppSchemasGameGuessRequest, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling guessWordApiGamesGameIdGuessPost.');
+        guessWordApiV1GamesGuessPost(authorization: string, body: GuessRequest, options: any = {}): FetchArgs {
+            // verify required parameter 'authorization' is not null or undefined
+            if (authorization === null || authorization === undefined) {
+                throw new RequiredError('authorization','Required parameter authorization was null or undefined when calling guessWordApiV1GamesGuessPost.');
             }
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling guessWordApiGamesGameIdGuessPost.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling guessWordApiV1GamesGuessPost.');
             }
-            const localVarPath = `/api/games/{game_id}/guess`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
+            const localVarPath = `/api/v1/games/guess`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -878,7 +878,7 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            const needsSerialization = (<any>"AppSchemasGameGuessRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization = (<any>"GuessRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
 
             return {
@@ -889,22 +889,16 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Join Game
-         * @param {number} gameId 
          * @param {JoinGameRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        joinGameApiGamesGameIdJoinPost(gameId: number, body: JoinGameRequest, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling joinGameApiGamesGameIdJoinPost.');
-            }
+        joinGameApiV1GamesJoinPost(body: JoinGameRequest, options: any = {}): FetchArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling joinGameApiGamesGameIdJoinPost.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling joinGameApiV1GamesJoinPost.');
             }
-            const localVarPath = `/api/games/{game_id}/join`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
+            const localVarPath = `/api/v1/games/join`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
@@ -926,52 +920,17 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @summary Leaderboard
-         * @param {number} gameId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        leaderboardApiGamesGameIdLeaderboardGet(gameId: number, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling leaderboardApiGamesGameIdLeaderboardGet.');
-            }
-            const localVarPath = `/api/games/{game_id}/leaderboard`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
-            const localVarUrlObj = url.parse(localVarPath, true);
-            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            localVarUrlObj.search = null;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Update Endtime
-         * @param {number} gameId 
          * @param {UpdateEndtimeRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEndtimeApiGamesGameIdEndtimePatch(gameId: number, body: UpdateEndtimeRequest, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling updateEndtimeApiGamesGameIdEndtimePatch.');
-            }
+        updateEndtimeApiV1GamesTimePatch(body: UpdateEndtimeRequest, options: any = {}): FetchArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updateEndtimeApiGamesGameIdEndtimePatch.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling updateEndtimeApiV1GamesTimePatch.');
             }
-            const localVarPath = `/api/games/{game_id}/endtime`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
+            const localVarPath = `/api/v1/games/time`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'PATCH' }, options);
             const localVarHeaderParameter = {} as any;
@@ -994,22 +953,16 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Update Word
-         * @param {number} gameId 
          * @param {UpdateWordRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateWordApiGamesGameIdWordPatch(gameId: number, body: UpdateWordRequest, options: any = {}): FetchArgs {
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId','Required parameter gameId was null or undefined when calling updateWordApiGamesGameIdWordPatch.');
-            }
+        updateWordApiV1GamesWordPatch(body: UpdateWordRequest, options: any = {}): FetchArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updateWordApiGamesGameIdWordPatch.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling updateWordApiV1GamesWordPatch.');
             }
-            const localVarPath = `/api/games/{game_id}/word`
-                .replace(`{${"game_id"}}`, encodeURIComponent(String(gameId)));
+            const localVarPath = `/api/v1/games/word`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'PATCH' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1033,10 +986,10 @@ export const GamesApiFetchParamCreator = function (configuration?: Configuration
 };
 
 /**
- * GamesApi - functional programming interface
+ * GamesV1Api - functional programming interface
  * @export
  */
-export const GamesApiFp = function(configuration?: Configuration) {
+export const GamesV1ApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
@@ -1045,8 +998,8 @@ export const GamesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createGameApiGamesPost(body: CreateGameRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CreateGameResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).createGameApiGamesPost(body, options);
+        createGameApiV1GamesPost(body: CreateGameRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CreateGameResponse> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).createGameApiV1GamesPost(body, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1060,12 +1013,11 @@ export const GamesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary End Game
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        endGameApiGamesGameIdEndPost(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).endGameApiGamesGameIdEndPost(gameId, options);
+        endGameApiV1GamesEndPost(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).endGameApiV1GamesEndPost(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1079,12 +1031,11 @@ export const GamesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Game Polling
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gamePollingApiGamesGameIdPollingGet(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GamePollingResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).gamePollingApiGamesGameIdPollingGet(gameId, options);
+        gamePollingApiV1GamesPollingGet(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GameInfoResponse> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).gamePollingApiV1GamesPollingGet(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1098,12 +1049,11 @@ export const GamesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Game Result
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameResultApiGamesGameIdResultGet(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GameResultResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).gameResultApiGamesGameIdResultGet(gameId, options);
+        gameResultApiV1GamesResultGet(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GameResultResponse> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).gameResultApiV1GamesResultGet(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1116,13 +1066,14 @@ export const GamesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Game Status
-         * @param {number} gameId 
+         * @summary Get Guess History
+         * @param {string} username 
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameStatusApiGamesGameIdStatusGet(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GameStatusResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).gameStatusApiGamesGameIdStatusGet(gameId, options);
+        getGuessHistoryApiV1GamesGuessesGet(username: string, authorization: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<GuessHistoryItem>> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).getGuessHistoryApiV1GamesGuessesGet(username, authorization, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1136,13 +1087,13 @@ export const GamesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Guess Word
-         * @param {number} gameId 
-         * @param {AppSchemasGameGuessRequest} body 
+         * @param {string} authorization 
+         * @param {GuessRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        guessWordApiGamesGameIdGuessPost(gameId: number, body: AppSchemasGameGuessRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<AppSchemasGameGuessResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).guessWordApiGamesGameIdGuessPost(gameId, body, options);
+        guessWordApiV1GamesGuessPost(authorization: string, body: GuessRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GuessResponse> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).guessWordApiV1GamesGuessPost(authorization, body, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1156,32 +1107,12 @@ export const GamesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Join Game
-         * @param {number} gameId 
          * @param {JoinGameRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        joinGameApiGamesGameIdJoinPost(gameId: number, body: JoinGameRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<JoinGameResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).joinGameApiGamesGameIdJoinPost(gameId, body, options);
-            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response.json();
-                    } else {
-                        throw response;
-                    }
-                });
-            };
-        },
-        /**
-         * 
-         * @summary Leaderboard
-         * @param {number} gameId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        leaderboardApiGamesGameIdLeaderboardGet(gameId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<LeaderboardResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).leaderboardApiGamesGameIdLeaderboardGet(gameId, options);
+        joinGameApiV1GamesJoinPost(body: JoinGameRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<JoinGameResponse> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).joinGameApiV1GamesJoinPost(body, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1195,13 +1126,12 @@ export const GamesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Update Endtime
-         * @param {number} gameId 
          * @param {UpdateEndtimeRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEndtimeApiGamesGameIdEndtimePatch(gameId: number, body: UpdateEndtimeRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).updateEndtimeApiGamesGameIdEndtimePatch(gameId, body, options);
+        updateEndtimeApiV1GamesTimePatch(body: UpdateEndtimeRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).updateEndtimeApiV1GamesTimePatch(body, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1215,13 +1145,12 @@ export const GamesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Update Word
-         * @param {number} gameId 
          * @param {UpdateWordRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateWordApiGamesGameIdWordPatch(gameId: number, body: UpdateWordRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse> {
-            const localVarFetchArgs = GamesApiFetchParamCreator(configuration).updateWordApiGamesGameIdWordPatch(gameId, body, options);
+        updateWordApiV1GamesWordPatch(body: UpdateWordRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<MessageResponse> {
+            const localVarFetchArgs = GamesV1ApiFetchParamCreator(configuration).updateWordApiV1GamesWordPatch(body, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1236,10 +1165,10 @@ export const GamesApiFp = function(configuration?: Configuration) {
 };
 
 /**
- * GamesApi - factory interface
+ * GamesV1Api - factory interface
  * @export
  */
-export const GamesApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
+export const GamesV1ApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
          * 
@@ -1248,235 +1177,203 @@ export const GamesApiFactory = function (configuration?: Configuration, fetch?: 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createGameApiGamesPost(body: CreateGameRequest, options?: any) {
-            return GamesApiFp(configuration).createGameApiGamesPost(body, options)(fetch, basePath);
+        createGameApiV1GamesPost(body: CreateGameRequest, options?: any) {
+            return GamesV1ApiFp(configuration).createGameApiV1GamesPost(body, options)(fetch, basePath);
         },
         /**
          * 
          * @summary End Game
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        endGameApiGamesGameIdEndPost(gameId: number, options?: any) {
-            return GamesApiFp(configuration).endGameApiGamesGameIdEndPost(gameId, options)(fetch, basePath);
+        endGameApiV1GamesEndPost(options?: any) {
+            return GamesV1ApiFp(configuration).endGameApiV1GamesEndPost(options)(fetch, basePath);
         },
         /**
          * 
          * @summary Game Polling
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gamePollingApiGamesGameIdPollingGet(gameId: number, options?: any) {
-            return GamesApiFp(configuration).gamePollingApiGamesGameIdPollingGet(gameId, options)(fetch, basePath);
+        gamePollingApiV1GamesPollingGet(options?: any) {
+            return GamesV1ApiFp(configuration).gamePollingApiV1GamesPollingGet(options)(fetch, basePath);
         },
         /**
          * 
          * @summary Game Result
-         * @param {number} gameId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameResultApiGamesGameIdResultGet(gameId: number, options?: any) {
-            return GamesApiFp(configuration).gameResultApiGamesGameIdResultGet(gameId, options)(fetch, basePath);
+        gameResultApiV1GamesResultGet(options?: any) {
+            return GamesV1ApiFp(configuration).gameResultApiV1GamesResultGet(options)(fetch, basePath);
         },
         /**
          * 
-         * @summary Game Status
-         * @param {number} gameId 
+         * @summary Get Guess History
+         * @param {string} username 
+         * @param {string} authorization 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameStatusApiGamesGameIdStatusGet(gameId: number, options?: any) {
-            return GamesApiFp(configuration).gameStatusApiGamesGameIdStatusGet(gameId, options)(fetch, basePath);
+        getGuessHistoryApiV1GamesGuessesGet(username: string, authorization: string, options?: any) {
+            return GamesV1ApiFp(configuration).getGuessHistoryApiV1GamesGuessesGet(username, authorization, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Guess Word
-         * @param {number} gameId 
-         * @param {AppSchemasGameGuessRequest} body 
+         * @param {string} authorization 
+         * @param {GuessRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        guessWordApiGamesGameIdGuessPost(gameId: number, body: AppSchemasGameGuessRequest, options?: any) {
-            return GamesApiFp(configuration).guessWordApiGamesGameIdGuessPost(gameId, body, options)(fetch, basePath);
+        guessWordApiV1GamesGuessPost(authorization: string, body: GuessRequest, options?: any) {
+            return GamesV1ApiFp(configuration).guessWordApiV1GamesGuessPost(authorization, body, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Join Game
-         * @param {number} gameId 
          * @param {JoinGameRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        joinGameApiGamesGameIdJoinPost(gameId: number, body: JoinGameRequest, options?: any) {
-            return GamesApiFp(configuration).joinGameApiGamesGameIdJoinPost(gameId, body, options)(fetch, basePath);
-        },
-        /**
-         * 
-         * @summary Leaderboard
-         * @param {number} gameId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        leaderboardApiGamesGameIdLeaderboardGet(gameId: number, options?: any) {
-            return GamesApiFp(configuration).leaderboardApiGamesGameIdLeaderboardGet(gameId, options)(fetch, basePath);
+        joinGameApiV1GamesJoinPost(body: JoinGameRequest, options?: any) {
+            return GamesV1ApiFp(configuration).joinGameApiV1GamesJoinPost(body, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Update Endtime
-         * @param {number} gameId 
          * @param {UpdateEndtimeRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEndtimeApiGamesGameIdEndtimePatch(gameId: number, body: UpdateEndtimeRequest, options?: any) {
-            return GamesApiFp(configuration).updateEndtimeApiGamesGameIdEndtimePatch(gameId, body, options)(fetch, basePath);
+        updateEndtimeApiV1GamesTimePatch(body: UpdateEndtimeRequest, options?: any) {
+            return GamesV1ApiFp(configuration).updateEndtimeApiV1GamesTimePatch(body, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Update Word
-         * @param {number} gameId 
          * @param {UpdateWordRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateWordApiGamesGameIdWordPatch(gameId: number, body: UpdateWordRequest, options?: any) {
-            return GamesApiFp(configuration).updateWordApiGamesGameIdWordPatch(gameId, body, options)(fetch, basePath);
+        updateWordApiV1GamesWordPatch(body: UpdateWordRequest, options?: any) {
+            return GamesV1ApiFp(configuration).updateWordApiV1GamesWordPatch(body, options)(fetch, basePath);
         },
     };
 };
 
 /**
- * GamesApi - object-oriented interface
+ * GamesV1Api - object-oriented interface
  * @export
- * @class GamesApi
+ * @class GamesV1Api
  * @extends {BaseAPI}
  */
-export class GamesApi extends BaseAPI {
+export class GamesV1Api extends BaseAPI {
     /**
      * 
      * @summary Create Game
      * @param {CreateGameRequest} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public createGameApiGamesPost(body: CreateGameRequest, options?: any) {
-        return GamesApiFp(this.configuration).createGameApiGamesPost(body, options)(this.fetch, this.basePath);
+    public createGameApiV1GamesPost(body: CreateGameRequest, options?: any) {
+        return GamesV1ApiFp(this.configuration).createGameApiV1GamesPost(body, options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary End Game
-     * @param {number} gameId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public endGameApiGamesGameIdEndPost(gameId: number, options?: any) {
-        return GamesApiFp(this.configuration).endGameApiGamesGameIdEndPost(gameId, options)(this.fetch, this.basePath);
+    public endGameApiV1GamesEndPost(options?: any) {
+        return GamesV1ApiFp(this.configuration).endGameApiV1GamesEndPost(options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary Game Polling
-     * @param {number} gameId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public gamePollingApiGamesGameIdPollingGet(gameId: number, options?: any) {
-        return GamesApiFp(this.configuration).gamePollingApiGamesGameIdPollingGet(gameId, options)(this.fetch, this.basePath);
+    public gamePollingApiV1GamesPollingGet(options?: any) {
+        return GamesV1ApiFp(this.configuration).gamePollingApiV1GamesPollingGet(options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary Game Result
-     * @param {number} gameId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public gameResultApiGamesGameIdResultGet(gameId: number, options?: any) {
-        return GamesApiFp(this.configuration).gameResultApiGamesGameIdResultGet(gameId, options)(this.fetch, this.basePath);
+    public gameResultApiV1GamesResultGet(options?: any) {
+        return GamesV1ApiFp(this.configuration).gameResultApiV1GamesResultGet(options)(this.fetch, this.basePath);
     }
 
     /**
      * 
-     * @summary Game Status
-     * @param {number} gameId 
+     * @summary Get Guess History
+     * @param {string} username 
+     * @param {string} authorization 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public gameStatusApiGamesGameIdStatusGet(gameId: number, options?: any) {
-        return GamesApiFp(this.configuration).gameStatusApiGamesGameIdStatusGet(gameId, options)(this.fetch, this.basePath);
+    public getGuessHistoryApiV1GamesGuessesGet(username: string, authorization: string, options?: any) {
+        return GamesV1ApiFp(this.configuration).getGuessHistoryApiV1GamesGuessesGet(username, authorization, options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary Guess Word
-     * @param {number} gameId 
-     * @param {AppSchemasGameGuessRequest} body 
+     * @param {string} authorization 
+     * @param {GuessRequest} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public guessWordApiGamesGameIdGuessPost(gameId: number, body: AppSchemasGameGuessRequest, options?: any) {
-        return GamesApiFp(this.configuration).guessWordApiGamesGameIdGuessPost(gameId, body, options)(this.fetch, this.basePath);
+    public guessWordApiV1GamesGuessPost(authorization: string, body: GuessRequest, options?: any) {
+        return GamesV1ApiFp(this.configuration).guessWordApiV1GamesGuessPost(authorization, body, options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary Join Game
-     * @param {number} gameId 
      * @param {JoinGameRequest} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public joinGameApiGamesGameIdJoinPost(gameId: number, body: JoinGameRequest, options?: any) {
-        return GamesApiFp(this.configuration).joinGameApiGamesGameIdJoinPost(gameId, body, options)(this.fetch, this.basePath);
-    }
-
-    /**
-     * 
-     * @summary Leaderboard
-     * @param {number} gameId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof GamesApi
-     */
-    public leaderboardApiGamesGameIdLeaderboardGet(gameId: number, options?: any) {
-        return GamesApiFp(this.configuration).leaderboardApiGamesGameIdLeaderboardGet(gameId, options)(this.fetch, this.basePath);
+    public joinGameApiV1GamesJoinPost(body: JoinGameRequest, options?: any) {
+        return GamesV1ApiFp(this.configuration).joinGameApiV1GamesJoinPost(body, options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary Update Endtime
-     * @param {number} gameId 
      * @param {UpdateEndtimeRequest} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public updateEndtimeApiGamesGameIdEndtimePatch(gameId: number, body: UpdateEndtimeRequest, options?: any) {
-        return GamesApiFp(this.configuration).updateEndtimeApiGamesGameIdEndtimePatch(gameId, body, options)(this.fetch, this.basePath);
+    public updateEndtimeApiV1GamesTimePatch(body: UpdateEndtimeRequest, options?: any) {
+        return GamesV1ApiFp(this.configuration).updateEndtimeApiV1GamesTimePatch(body, options)(this.fetch, this.basePath);
     }
 
     /**
      * 
      * @summary Update Word
-     * @param {number} gameId 
      * @param {UpdateWordRequest} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    public updateWordApiGamesGameIdWordPatch(gameId: number, body: UpdateWordRequest, options?: any) {
-        return GamesApiFp(this.configuration).updateWordApiGamesGameIdWordPatch(gameId, body, options)(this.fetch, this.basePath);
+    public updateWordApiV1GamesWordPatch(body: UpdateWordRequest, options?: any) {
+        return GamesV1ApiFp(this.configuration).updateWordApiV1GamesWordPatch(body, options)(this.fetch, this.basePath);
     }
 
 }
@@ -1579,195 +1476,13 @@ export class HealthApi extends BaseAPI {
 }
 
 /**
- * SimilarityApi - fetch parameter creator
- * @export
- */
-export const SimilarityApiFetchParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 두 단어의 유사도를 계산합니다.
-         * @summary Calculate Similarity
-         * @param {SimilarityRequest} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        calculateSimilarityApiSimilarityPost(body: SimilarityRequest, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling calculateSimilarityApiSimilarityPost.');
-            }
-            const localVarPath = `/api/similarity/`;
-            const localVarUrlObj = url.parse(localVarPath, true);
-            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            localVarUrlObj.search = null;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            const needsSerialization = (<any>"SimilarityRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
-
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 정답 단어를 추측합니다.
-         * @summary Guess Secret Word
-         * @param {AppApiRoutesSimilarityGuessRequest} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        guessSecretWordApiSimilarityGuessPost(body: AppApiRoutesSimilarityGuessRequest, options: any = {}): FetchArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling guessSecretWordApiSimilarityGuessPost.');
-            }
-            const localVarPath = `/api/similarity/guess`;
-            const localVarUrlObj = url.parse(localVarPath, true);
-            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            localVarUrlObj.search = null;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            const needsSerialization = (<any>"AppApiRoutesSimilarityGuessRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
-
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * SimilarityApi - functional programming interface
- * @export
- */
-export const SimilarityApiFp = function(configuration?: Configuration) {
-    return {
-        /**
-         * 두 단어의 유사도를 계산합니다.
-         * @summary Calculate Similarity
-         * @param {SimilarityRequest} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        calculateSimilarityApiSimilarityPost(body: SimilarityRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<SimilarityResponse> {
-            const localVarFetchArgs = SimilarityApiFetchParamCreator(configuration).calculateSimilarityApiSimilarityPost(body, options);
-            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response.json();
-                    } else {
-                        throw response;
-                    }
-                });
-            };
-        },
-        /**
-         * 정답 단어를 추측합니다.
-         * @summary Guess Secret Word
-         * @param {AppApiRoutesSimilarityGuessRequest} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        guessSecretWordApiSimilarityGuessPost(body: AppApiRoutesSimilarityGuessRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<AppApiRoutesSimilarityGuessResponse> {
-            const localVarFetchArgs = SimilarityApiFetchParamCreator(configuration).guessSecretWordApiSimilarityGuessPost(body, options);
-            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response.json();
-                    } else {
-                        throw response;
-                    }
-                });
-            };
-        },
-    }
-};
-
-/**
- * SimilarityApi - factory interface
- * @export
- */
-export const SimilarityApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
-    return {
-        /**
-         * 두 단어의 유사도를 계산합니다.
-         * @summary Calculate Similarity
-         * @param {SimilarityRequest} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        calculateSimilarityApiSimilarityPost(body: SimilarityRequest, options?: any) {
-            return SimilarityApiFp(configuration).calculateSimilarityApiSimilarityPost(body, options)(fetch, basePath);
-        },
-        /**
-         * 정답 단어를 추측합니다.
-         * @summary Guess Secret Word
-         * @param {AppApiRoutesSimilarityGuessRequest} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        guessSecretWordApiSimilarityGuessPost(body: AppApiRoutesSimilarityGuessRequest, options?: any) {
-            return SimilarityApiFp(configuration).guessSecretWordApiSimilarityGuessPost(body, options)(fetch, basePath);
-        },
-    };
-};
-
-/**
- * SimilarityApi - object-oriented interface
- * @export
- * @class SimilarityApi
- * @extends {BaseAPI}
- */
-export class SimilarityApi extends BaseAPI {
-    /**
-     * 두 단어의 유사도를 계산합니다.
-     * @summary Calculate Similarity
-     * @param {SimilarityRequest} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimilarityApi
-     */
-    public calculateSimilarityApiSimilarityPost(body: SimilarityRequest, options?: any) {
-        return SimilarityApiFp(this.configuration).calculateSimilarityApiSimilarityPost(body, options)(this.fetch, this.basePath);
-    }
-
-    /**
-     * 정답 단어를 추측합니다.
-     * @summary Guess Secret Word
-     * @param {AppApiRoutesSimilarityGuessRequest} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimilarityApi
-     */
-    public guessSecretWordApiSimilarityGuessPost(body: AppApiRoutesSimilarityGuessRequest, options?: any) {
-        return SimilarityApiFp(this.configuration).guessSecretWordApiSimilarityGuessPost(body, options)(this.fetch, this.basePath);
-    }
-
-}
-
-/**
  * UsersApi - fetch parameter creator
  * @export
  */
 export const UsersApiFetchParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+         * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
          * @summary Check Nickname
          * @param {string} nickname 확인할 닉네임
          * @param {*} [options] Override http request option.
@@ -1808,7 +1523,7 @@ export const UsersApiFetchParamCreator = function (configuration?: Configuration
 export const UsersApiFp = function(configuration?: Configuration) {
     return {
         /**
-         * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+         * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
          * @summary Check Nickname
          * @param {string} nickname 확인할 닉네임
          * @param {*} [options] Override http request option.
@@ -1836,7 +1551,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
 export const UsersApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
-         * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+         * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
          * @summary Check Nickname
          * @param {string} nickname 확인할 닉네임
          * @param {*} [options] Override http request option.
@@ -1856,7 +1571,7 @@ export const UsersApiFactory = function (configuration?: Configuration, fetch?: 
  */
 export class UsersApi extends BaseAPI {
     /**
-     * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+     * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
      * @summary Check Nickname
      * @param {string} nickname 확인할 닉네임
      * @param {*} [options] Override http request option.

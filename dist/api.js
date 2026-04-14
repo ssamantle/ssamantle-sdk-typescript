@@ -28,7 +28,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersApi = exports.UsersApiFactory = exports.UsersApiFp = exports.UsersApiFetchParamCreator = exports.SimilarityApi = exports.SimilarityApiFactory = exports.SimilarityApiFp = exports.SimilarityApiFetchParamCreator = exports.HealthApi = exports.HealthApiFactory = exports.HealthApiFp = exports.HealthApiFetchParamCreator = exports.GamesApi = exports.GamesApiFactory = exports.GamesApiFp = exports.GamesApiFetchParamCreator = exports.DefaultApi = exports.DefaultApiFactory = exports.DefaultApiFp = exports.DefaultApiFetchParamCreator = exports.RequiredError = exports.BaseAPI = exports.COLLECTION_FORMATS = void 0;
+exports.UsersApi = exports.UsersApiFactory = exports.UsersApiFp = exports.UsersApiFetchParamCreator = exports.HealthApi = exports.HealthApiFactory = exports.HealthApiFp = exports.HealthApiFetchParamCreator = exports.GamesV1Api = exports.GamesV1ApiFactory = exports.GamesV1ApiFp = exports.GamesV1ApiFetchParamCreator = exports.DefaultApi = exports.DefaultApiFactory = exports.DefaultApiFp = exports.DefaultApiFetchParamCreator = exports.AuthApi = exports.AuthApiFactory = exports.AuthApiFp = exports.AuthApiFetchParamCreator = exports.RequiredError = exports.BaseAPI = exports.COLLECTION_FORMATS = void 0;
 var url = require("url");
 var portableFetch = require("portable-fetch");
 var BASE_PATH = "https://localhost".replace(/\/+$/, "");
@@ -78,6 +78,120 @@ var RequiredError = /** @class */ (function (_super) {
     return RequiredError;
 }(Error));
 exports.RequiredError = RequiredError;
+/**
+ * AuthApi - fetch parameter creator
+ * @export
+ */
+var AuthApiFetchParamCreator = function (configuration) {
+    return {
+        /**
+         * 세션ID(토큰) 유효성 검사
+         * @summary Validate Token
+         * @param {string} authorization
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateTokenAuthValidateGet: function (authorization, options) {
+            if (options === void 0) { options = {}; }
+            // verify required parameter 'authorization' is not null or undefined
+            if (authorization === null || authorization === undefined) {
+                throw new RequiredError('authorization', 'Required parameter authorization was null or undefined when calling validateTokenAuthValidateGet.');
+            }
+            var localVarPath = "/auth/validate";
+            var localVarUrlObj = url.parse(localVarPath, true);
+            var localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            var localVarHeaderParameter = {};
+            var localVarQueryParameter = {};
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    };
+};
+exports.AuthApiFetchParamCreator = AuthApiFetchParamCreator;
+/**
+ * AuthApi - functional programming interface
+ * @export
+ */
+var AuthApiFp = function (configuration) {
+    return {
+        /**
+         * 세션ID(토큰) 유효성 검사
+         * @summary Validate Token
+         * @param {string} authorization
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateTokenAuthValidateGet: function (authorization, options) {
+            var localVarFetchArgs = (0, exports.AuthApiFetchParamCreator)(configuration).validateTokenAuthValidateGet(authorization, options);
+            return function (fetch, basePath) {
+                if (fetch === void 0) { fetch = portableFetch; }
+                if (basePath === void 0) { basePath = BASE_PATH; }
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then(function (response) {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    }
+                    else {
+                        throw response;
+                    }
+                });
+            };
+        },
+    };
+};
+exports.AuthApiFp = AuthApiFp;
+/**
+ * AuthApi - factory interface
+ * @export
+ */
+var AuthApiFactory = function (configuration, fetch, basePath) {
+    return {
+        /**
+         * 세션ID(토큰) 유효성 검사
+         * @summary Validate Token
+         * @param {string} authorization
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        validateTokenAuthValidateGet: function (authorization, options) {
+            return (0, exports.AuthApiFp)(configuration).validateTokenAuthValidateGet(authorization, options)(fetch, basePath);
+        },
+    };
+};
+exports.AuthApiFactory = AuthApiFactory;
+/**
+ * AuthApi - object-oriented interface
+ * @export
+ * @class AuthApi
+ * @extends {BaseAPI}
+ */
+var AuthApi = /** @class */ (function (_super) {
+    __extends(AuthApi, _super);
+    function AuthApi() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    /**
+     * 세션ID(토큰) 유효성 검사
+     * @summary Validate Token
+     * @param {string} authorization
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    AuthApi.prototype.validateTokenAuthValidateGet = function (authorization, options) {
+        return (0, exports.AuthApiFp)(this.configuration).validateTokenAuthValidateGet(authorization, options)(this.fetch, this.basePath);
+    };
+    return AuthApi;
+}(BaseAPI));
+exports.AuthApi = AuthApi;
 /**
  * DefaultApi - fetch parameter creator
  * @export
@@ -182,10 +296,10 @@ var DefaultApi = /** @class */ (function (_super) {
 }(BaseAPI));
 exports.DefaultApi = DefaultApi;
 /**
- * GamesApi - fetch parameter creator
+ * GamesV1Api - fetch parameter creator
  * @export
  */
-var GamesApiFetchParamCreator = function (configuration) {
+var GamesV1ApiFetchParamCreator = function (configuration) {
     return {
         /**
          *
@@ -194,13 +308,13 @@ var GamesApiFetchParamCreator = function (configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createGameApiGamesPost: function (body, options) {
+        createGameApiV1GamesPost: function (body, options) {
             if (options === void 0) { options = {}; }
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body', 'Required parameter body was null or undefined when calling createGameApiGamesPost.');
+                throw new RequiredError('body', 'Required parameter body was null or undefined when calling createGameApiV1GamesPost.');
             }
-            var localVarPath = "/api/games";
+            var localVarPath = "/api/v1/games";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             var localVarHeaderParameter = {};
@@ -220,18 +334,12 @@ var GamesApiFetchParamCreator = function (configuration) {
         /**
          *
          * @summary End Game
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        endGameApiGamesGameIdEndPost: function (gameId, options) {
+        endGameApiV1GamesEndPost: function (options) {
             if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling endGameApiGamesGameIdEndPost.');
-            }
-            var localVarPath = "/api/games/{game_id}/end"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
+            var localVarPath = "/api/v1/games/end";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             var localVarHeaderParameter = {};
@@ -248,18 +356,12 @@ var GamesApiFetchParamCreator = function (configuration) {
         /**
          *
          * @summary Game Polling
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gamePollingApiGamesGameIdPollingGet: function (gameId, options) {
+        gamePollingApiV1GamesPollingGet: function (options) {
             if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling gamePollingApiGamesGameIdPollingGet.');
-            }
-            var localVarPath = "/api/games/{game_id}/polling"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
+            var localVarPath = "/api/v1/games/polling";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             var localVarHeaderParameter = {};
@@ -276,18 +378,12 @@ var GamesApiFetchParamCreator = function (configuration) {
         /**
          *
          * @summary Game Result
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameResultApiGamesGameIdResultGet: function (gameId, options) {
+        gameResultApiV1GamesResultGet: function (options) {
             if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling gameResultApiGamesGameIdResultGet.');
-            }
-            var localVarPath = "/api/games/{game_id}/result"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
+            var localVarPath = "/api/v1/games/result";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             var localVarHeaderParameter = {};
@@ -303,23 +399,33 @@ var GamesApiFetchParamCreator = function (configuration) {
         },
         /**
          *
-         * @summary Game Status
-         * @param {number} gameId
+         * @summary Get Guess History
+         * @param {string} username
+         * @param {string} authorization
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameStatusApiGamesGameIdStatusGet: function (gameId, options) {
+        getGuessHistoryApiV1GamesGuessesGet: function (username, authorization, options) {
             if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling gameStatusApiGamesGameIdStatusGet.');
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username', 'Required parameter username was null or undefined when calling getGuessHistoryApiV1GamesGuessesGet.');
             }
-            var localVarPath = "/api/games/{game_id}/status"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
+            // verify required parameter 'authorization' is not null or undefined
+            if (authorization === null || authorization === undefined) {
+                throw new RequiredError('authorization', 'Required parameter authorization was null or undefined when calling getGuessHistoryApiV1GamesGuessesGet.');
+            }
+            var localVarPath = "/api/v1/games/guesses";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             var localVarHeaderParameter = {};
             var localVarQueryParameter = {};
+            if (username !== undefined) {
+                localVarQueryParameter['username'] = username;
+            }
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             localVarUrlObj.search = null;
@@ -332,33 +438,35 @@ var GamesApiFetchParamCreator = function (configuration) {
         /**
          *
          * @summary Guess Word
-         * @param {number} gameId
-         * @param {AppSchemasGameGuessRequest} body
+         * @param {string} authorization
+         * @param {GuessRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        guessWordApiGamesGameIdGuessPost: function (gameId, body, options) {
+        guessWordApiV1GamesGuessPost: function (authorization, body, options) {
             if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling guessWordApiGamesGameIdGuessPost.');
+            // verify required parameter 'authorization' is not null or undefined
+            if (authorization === null || authorization === undefined) {
+                throw new RequiredError('authorization', 'Required parameter authorization was null or undefined when calling guessWordApiV1GamesGuessPost.');
             }
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body', 'Required parameter body was null or undefined when calling guessWordApiGamesGameIdGuessPost.');
+                throw new RequiredError('body', 'Required parameter body was null or undefined when calling guessWordApiV1GamesGuessPost.');
             }
-            var localVarPath = "/api/games/{game_id}/guess"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
+            var localVarPath = "/api/v1/games/guess";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             var localVarHeaderParameter = {};
             var localVarQueryParameter = {};
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['authorization'] = String(authorization);
+            }
             localVarHeaderParameter['Content-Type'] = 'application/json';
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            var needsSerialization = ("AppSchemasGameGuessRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            var needsSerialization = ("GuessRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body = needsSerialization ? JSON.stringify(body || {}) : (body || "");
             return {
                 url: url.format(localVarUrlObj),
@@ -368,23 +476,17 @@ var GamesApiFetchParamCreator = function (configuration) {
         /**
          *
          * @summary Join Game
-         * @param {number} gameId
          * @param {JoinGameRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        joinGameApiGamesGameIdJoinPost: function (gameId, body, options) {
+        joinGameApiV1GamesJoinPost: function (body, options) {
             if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling joinGameApiGamesGameIdJoinPost.');
-            }
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body', 'Required parameter body was null or undefined when calling joinGameApiGamesGameIdJoinPost.');
+                throw new RequiredError('body', 'Required parameter body was null or undefined when calling joinGameApiV1GamesJoinPost.');
             }
-            var localVarPath = "/api/games/{game_id}/join"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
+            var localVarPath = "/api/v1/games/join";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             var localVarHeaderParameter = {};
@@ -403,52 +505,18 @@ var GamesApiFetchParamCreator = function (configuration) {
         },
         /**
          *
-         * @summary Leaderboard
-         * @param {number} gameId
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        leaderboardApiGamesGameIdLeaderboardGet: function (gameId, options) {
-            if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling leaderboardApiGamesGameIdLeaderboardGet.');
-            }
-            var localVarPath = "/api/games/{game_id}/leaderboard"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
-            var localVarUrlObj = url.parse(localVarPath, true);
-            var localVarRequestOptions = Object.assign({ method: 'GET' }, options);
-            var localVarHeaderParameter = {};
-            var localVarQueryParameter = {};
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            localVarUrlObj.search = null;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
          * @summary Update Endtime
-         * @param {number} gameId
          * @param {UpdateEndtimeRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEndtimeApiGamesGameIdEndtimePatch: function (gameId, body, options) {
+        updateEndtimeApiV1GamesTimePatch: function (body, options) {
             if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling updateEndtimeApiGamesGameIdEndtimePatch.');
-            }
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body', 'Required parameter body was null or undefined when calling updateEndtimeApiGamesGameIdEndtimePatch.');
+                throw new RequiredError('body', 'Required parameter body was null or undefined when calling updateEndtimeApiV1GamesTimePatch.');
             }
-            var localVarPath = "/api/games/{game_id}/endtime"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
+            var localVarPath = "/api/v1/games/time";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'PATCH' }, options);
             var localVarHeaderParameter = {};
@@ -468,23 +536,17 @@ var GamesApiFetchParamCreator = function (configuration) {
         /**
          *
          * @summary Update Word
-         * @param {number} gameId
          * @param {UpdateWordRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateWordApiGamesGameIdWordPatch: function (gameId, body, options) {
+        updateWordApiV1GamesWordPatch: function (body, options) {
             if (options === void 0) { options = {}; }
-            // verify required parameter 'gameId' is not null or undefined
-            if (gameId === null || gameId === undefined) {
-                throw new RequiredError('gameId', 'Required parameter gameId was null or undefined when calling updateWordApiGamesGameIdWordPatch.');
-            }
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body', 'Required parameter body was null or undefined when calling updateWordApiGamesGameIdWordPatch.');
+                throw new RequiredError('body', 'Required parameter body was null or undefined when calling updateWordApiV1GamesWordPatch.');
             }
-            var localVarPath = "/api/games/{game_id}/word"
-                .replace("{".concat("game_id", "}"), encodeURIComponent(String(gameId)));
+            var localVarPath = "/api/v1/games/word";
             var localVarUrlObj = url.parse(localVarPath, true);
             var localVarRequestOptions = Object.assign({ method: 'PATCH' }, options);
             var localVarHeaderParameter = {};
@@ -503,12 +565,12 @@ var GamesApiFetchParamCreator = function (configuration) {
         },
     };
 };
-exports.GamesApiFetchParamCreator = GamesApiFetchParamCreator;
+exports.GamesV1ApiFetchParamCreator = GamesV1ApiFetchParamCreator;
 /**
- * GamesApi - functional programming interface
+ * GamesV1Api - functional programming interface
  * @export
  */
-var GamesApiFp = function (configuration) {
+var GamesV1ApiFp = function (configuration) {
     return {
         /**
          *
@@ -517,8 +579,8 @@ var GamesApiFp = function (configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createGameApiGamesPost: function (body, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).createGameApiGamesPost(body, options);
+        createGameApiV1GamesPost: function (body, options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).createGameApiV1GamesPost(body, options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -535,12 +597,11 @@ var GamesApiFp = function (configuration) {
         /**
          *
          * @summary End Game
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        endGameApiGamesGameIdEndPost: function (gameId, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).endGameApiGamesGameIdEndPost(gameId, options);
+        endGameApiV1GamesEndPost: function (options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).endGameApiV1GamesEndPost(options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -557,12 +618,11 @@ var GamesApiFp = function (configuration) {
         /**
          *
          * @summary Game Polling
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gamePollingApiGamesGameIdPollingGet: function (gameId, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).gamePollingApiGamesGameIdPollingGet(gameId, options);
+        gamePollingApiV1GamesPollingGet: function (options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).gamePollingApiV1GamesPollingGet(options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -579,12 +639,11 @@ var GamesApiFp = function (configuration) {
         /**
          *
          * @summary Game Result
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameResultApiGamesGameIdResultGet: function (gameId, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).gameResultApiGamesGameIdResultGet(gameId, options);
+        gameResultApiV1GamesResultGet: function (options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).gameResultApiV1GamesResultGet(options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -600,13 +659,14 @@ var GamesApiFp = function (configuration) {
         },
         /**
          *
-         * @summary Game Status
-         * @param {number} gameId
+         * @summary Get Guess History
+         * @param {string} username
+         * @param {string} authorization
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameStatusApiGamesGameIdStatusGet: function (gameId, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).gameStatusApiGamesGameIdStatusGet(gameId, options);
+        getGuessHistoryApiV1GamesGuessesGet: function (username, authorization, options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).getGuessHistoryApiV1GamesGuessesGet(username, authorization, options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -623,13 +683,13 @@ var GamesApiFp = function (configuration) {
         /**
          *
          * @summary Guess Word
-         * @param {number} gameId
-         * @param {AppSchemasGameGuessRequest} body
+         * @param {string} authorization
+         * @param {GuessRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        guessWordApiGamesGameIdGuessPost: function (gameId, body, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).guessWordApiGamesGameIdGuessPost(gameId, body, options);
+        guessWordApiV1GamesGuessPost: function (authorization, body, options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).guessWordApiV1GamesGuessPost(authorization, body, options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -646,35 +706,12 @@ var GamesApiFp = function (configuration) {
         /**
          *
          * @summary Join Game
-         * @param {number} gameId
          * @param {JoinGameRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        joinGameApiGamesGameIdJoinPost: function (gameId, body, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).joinGameApiGamesGameIdJoinPost(gameId, body, options);
-            return function (fetch, basePath) {
-                if (fetch === void 0) { fetch = portableFetch; }
-                if (basePath === void 0) { basePath = BASE_PATH; }
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then(function (response) {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response.json();
-                    }
-                    else {
-                        throw response;
-                    }
-                });
-            };
-        },
-        /**
-         *
-         * @summary Leaderboard
-         * @param {number} gameId
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        leaderboardApiGamesGameIdLeaderboardGet: function (gameId, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).leaderboardApiGamesGameIdLeaderboardGet(gameId, options);
+        joinGameApiV1GamesJoinPost: function (body, options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).joinGameApiV1GamesJoinPost(body, options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -691,13 +728,12 @@ var GamesApiFp = function (configuration) {
         /**
          *
          * @summary Update Endtime
-         * @param {number} gameId
          * @param {UpdateEndtimeRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEndtimeApiGamesGameIdEndtimePatch: function (gameId, body, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).updateEndtimeApiGamesGameIdEndtimePatch(gameId, body, options);
+        updateEndtimeApiV1GamesTimePatch: function (body, options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).updateEndtimeApiV1GamesTimePatch(body, options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -714,13 +750,12 @@ var GamesApiFp = function (configuration) {
         /**
          *
          * @summary Update Word
-         * @param {number} gameId
          * @param {UpdateWordRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateWordApiGamesGameIdWordPatch: function (gameId, body, options) {
-            var localVarFetchArgs = (0, exports.GamesApiFetchParamCreator)(configuration).updateWordApiGamesGameIdWordPatch(gameId, body, options);
+        updateWordApiV1GamesWordPatch: function (body, options) {
+            var localVarFetchArgs = (0, exports.GamesV1ApiFetchParamCreator)(configuration).updateWordApiV1GamesWordPatch(body, options);
             return function (fetch, basePath) {
                 if (fetch === void 0) { fetch = portableFetch; }
                 if (basePath === void 0) { basePath = BASE_PATH; }
@@ -736,12 +771,12 @@ var GamesApiFp = function (configuration) {
         },
     };
 };
-exports.GamesApiFp = GamesApiFp;
+exports.GamesV1ApiFp = GamesV1ApiFp;
 /**
- * GamesApi - factory interface
+ * GamesV1Api - factory interface
  * @export
  */
-var GamesApiFactory = function (configuration, fetch, basePath) {
+var GamesV1ApiFactory = function (configuration, fetch, basePath) {
     return {
         /**
          *
@@ -750,115 +785,100 @@ var GamesApiFactory = function (configuration, fetch, basePath) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createGameApiGamesPost: function (body, options) {
-            return (0, exports.GamesApiFp)(configuration).createGameApiGamesPost(body, options)(fetch, basePath);
+        createGameApiV1GamesPost: function (body, options) {
+            return (0, exports.GamesV1ApiFp)(configuration).createGameApiV1GamesPost(body, options)(fetch, basePath);
         },
         /**
          *
          * @summary End Game
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        endGameApiGamesGameIdEndPost: function (gameId, options) {
-            return (0, exports.GamesApiFp)(configuration).endGameApiGamesGameIdEndPost(gameId, options)(fetch, basePath);
+        endGameApiV1GamesEndPost: function (options) {
+            return (0, exports.GamesV1ApiFp)(configuration).endGameApiV1GamesEndPost(options)(fetch, basePath);
         },
         /**
          *
          * @summary Game Polling
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gamePollingApiGamesGameIdPollingGet: function (gameId, options) {
-            return (0, exports.GamesApiFp)(configuration).gamePollingApiGamesGameIdPollingGet(gameId, options)(fetch, basePath);
+        gamePollingApiV1GamesPollingGet: function (options) {
+            return (0, exports.GamesV1ApiFp)(configuration).gamePollingApiV1GamesPollingGet(options)(fetch, basePath);
         },
         /**
          *
          * @summary Game Result
-         * @param {number} gameId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameResultApiGamesGameIdResultGet: function (gameId, options) {
-            return (0, exports.GamesApiFp)(configuration).gameResultApiGamesGameIdResultGet(gameId, options)(fetch, basePath);
+        gameResultApiV1GamesResultGet: function (options) {
+            return (0, exports.GamesV1ApiFp)(configuration).gameResultApiV1GamesResultGet(options)(fetch, basePath);
         },
         /**
          *
-         * @summary Game Status
-         * @param {number} gameId
+         * @summary Get Guess History
+         * @param {string} username
+         * @param {string} authorization
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        gameStatusApiGamesGameIdStatusGet: function (gameId, options) {
-            return (0, exports.GamesApiFp)(configuration).gameStatusApiGamesGameIdStatusGet(gameId, options)(fetch, basePath);
+        getGuessHistoryApiV1GamesGuessesGet: function (username, authorization, options) {
+            return (0, exports.GamesV1ApiFp)(configuration).getGuessHistoryApiV1GamesGuessesGet(username, authorization, options)(fetch, basePath);
         },
         /**
          *
          * @summary Guess Word
-         * @param {number} gameId
-         * @param {AppSchemasGameGuessRequest} body
+         * @param {string} authorization
+         * @param {GuessRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        guessWordApiGamesGameIdGuessPost: function (gameId, body, options) {
-            return (0, exports.GamesApiFp)(configuration).guessWordApiGamesGameIdGuessPost(gameId, body, options)(fetch, basePath);
+        guessWordApiV1GamesGuessPost: function (authorization, body, options) {
+            return (0, exports.GamesV1ApiFp)(configuration).guessWordApiV1GamesGuessPost(authorization, body, options)(fetch, basePath);
         },
         /**
          *
          * @summary Join Game
-         * @param {number} gameId
          * @param {JoinGameRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        joinGameApiGamesGameIdJoinPost: function (gameId, body, options) {
-            return (0, exports.GamesApiFp)(configuration).joinGameApiGamesGameIdJoinPost(gameId, body, options)(fetch, basePath);
-        },
-        /**
-         *
-         * @summary Leaderboard
-         * @param {number} gameId
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        leaderboardApiGamesGameIdLeaderboardGet: function (gameId, options) {
-            return (0, exports.GamesApiFp)(configuration).leaderboardApiGamesGameIdLeaderboardGet(gameId, options)(fetch, basePath);
+        joinGameApiV1GamesJoinPost: function (body, options) {
+            return (0, exports.GamesV1ApiFp)(configuration).joinGameApiV1GamesJoinPost(body, options)(fetch, basePath);
         },
         /**
          *
          * @summary Update Endtime
-         * @param {number} gameId
          * @param {UpdateEndtimeRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEndtimeApiGamesGameIdEndtimePatch: function (gameId, body, options) {
-            return (0, exports.GamesApiFp)(configuration).updateEndtimeApiGamesGameIdEndtimePatch(gameId, body, options)(fetch, basePath);
+        updateEndtimeApiV1GamesTimePatch: function (body, options) {
+            return (0, exports.GamesV1ApiFp)(configuration).updateEndtimeApiV1GamesTimePatch(body, options)(fetch, basePath);
         },
         /**
          *
          * @summary Update Word
-         * @param {number} gameId
          * @param {UpdateWordRequest} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateWordApiGamesGameIdWordPatch: function (gameId, body, options) {
-            return (0, exports.GamesApiFp)(configuration).updateWordApiGamesGameIdWordPatch(gameId, body, options)(fetch, basePath);
+        updateWordApiV1GamesWordPatch: function (body, options) {
+            return (0, exports.GamesV1ApiFp)(configuration).updateWordApiV1GamesWordPatch(body, options)(fetch, basePath);
         },
     };
 };
-exports.GamesApiFactory = GamesApiFactory;
+exports.GamesV1ApiFactory = GamesV1ApiFactory;
 /**
- * GamesApi - object-oriented interface
+ * GamesV1Api - object-oriented interface
  * @export
- * @class GamesApi
+ * @class GamesV1Api
  * @extends {BaseAPI}
  */
-var GamesApi = /** @class */ (function (_super) {
-    __extends(GamesApi, _super);
-    function GamesApi() {
+var GamesV1Api = /** @class */ (function (_super) {
+    __extends(GamesV1Api, _super);
+    function GamesV1Api() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     /**
@@ -867,117 +887,101 @@ var GamesApi = /** @class */ (function (_super) {
      * @param {CreateGameRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.createGameApiGamesPost = function (body, options) {
-        return (0, exports.GamesApiFp)(this.configuration).createGameApiGamesPost(body, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.createGameApiV1GamesPost = function (body, options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).createGameApiV1GamesPost(body, options)(this.fetch, this.basePath);
     };
     /**
      *
      * @summary End Game
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.endGameApiGamesGameIdEndPost = function (gameId, options) {
-        return (0, exports.GamesApiFp)(this.configuration).endGameApiGamesGameIdEndPost(gameId, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.endGameApiV1GamesEndPost = function (options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).endGameApiV1GamesEndPost(options)(this.fetch, this.basePath);
     };
     /**
      *
      * @summary Game Polling
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.gamePollingApiGamesGameIdPollingGet = function (gameId, options) {
-        return (0, exports.GamesApiFp)(this.configuration).gamePollingApiGamesGameIdPollingGet(gameId, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.gamePollingApiV1GamesPollingGet = function (options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).gamePollingApiV1GamesPollingGet(options)(this.fetch, this.basePath);
     };
     /**
      *
      * @summary Game Result
-     * @param {number} gameId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.gameResultApiGamesGameIdResultGet = function (gameId, options) {
-        return (0, exports.GamesApiFp)(this.configuration).gameResultApiGamesGameIdResultGet(gameId, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.gameResultApiV1GamesResultGet = function (options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).gameResultApiV1GamesResultGet(options)(this.fetch, this.basePath);
     };
     /**
      *
-     * @summary Game Status
-     * @param {number} gameId
+     * @summary Get Guess History
+     * @param {string} username
+     * @param {string} authorization
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.gameStatusApiGamesGameIdStatusGet = function (gameId, options) {
-        return (0, exports.GamesApiFp)(this.configuration).gameStatusApiGamesGameIdStatusGet(gameId, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.getGuessHistoryApiV1GamesGuessesGet = function (username, authorization, options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).getGuessHistoryApiV1GamesGuessesGet(username, authorization, options)(this.fetch, this.basePath);
     };
     /**
      *
      * @summary Guess Word
-     * @param {number} gameId
-     * @param {AppSchemasGameGuessRequest} body
+     * @param {string} authorization
+     * @param {GuessRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.guessWordApiGamesGameIdGuessPost = function (gameId, body, options) {
-        return (0, exports.GamesApiFp)(this.configuration).guessWordApiGamesGameIdGuessPost(gameId, body, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.guessWordApiV1GamesGuessPost = function (authorization, body, options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).guessWordApiV1GamesGuessPost(authorization, body, options)(this.fetch, this.basePath);
     };
     /**
      *
      * @summary Join Game
-     * @param {number} gameId
      * @param {JoinGameRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.joinGameApiGamesGameIdJoinPost = function (gameId, body, options) {
-        return (0, exports.GamesApiFp)(this.configuration).joinGameApiGamesGameIdJoinPost(gameId, body, options)(this.fetch, this.basePath);
-    };
-    /**
-     *
-     * @summary Leaderboard
-     * @param {number} gameId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof GamesApi
-     */
-    GamesApi.prototype.leaderboardApiGamesGameIdLeaderboardGet = function (gameId, options) {
-        return (0, exports.GamesApiFp)(this.configuration).leaderboardApiGamesGameIdLeaderboardGet(gameId, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.joinGameApiV1GamesJoinPost = function (body, options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).joinGameApiV1GamesJoinPost(body, options)(this.fetch, this.basePath);
     };
     /**
      *
      * @summary Update Endtime
-     * @param {number} gameId
      * @param {UpdateEndtimeRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.updateEndtimeApiGamesGameIdEndtimePatch = function (gameId, body, options) {
-        return (0, exports.GamesApiFp)(this.configuration).updateEndtimeApiGamesGameIdEndtimePatch(gameId, body, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.updateEndtimeApiV1GamesTimePatch = function (body, options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).updateEndtimeApiV1GamesTimePatch(body, options)(this.fetch, this.basePath);
     };
     /**
      *
      * @summary Update Word
-     * @param {number} gameId
      * @param {UpdateWordRequest} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof GamesApi
+     * @memberof GamesV1Api
      */
-    GamesApi.prototype.updateWordApiGamesGameIdWordPatch = function (gameId, body, options) {
-        return (0, exports.GamesApiFp)(this.configuration).updateWordApiGamesGameIdWordPatch(gameId, body, options)(this.fetch, this.basePath);
+    GamesV1Api.prototype.updateWordApiV1GamesWordPatch = function (body, options) {
+        return (0, exports.GamesV1ApiFp)(this.configuration).updateWordApiV1GamesWordPatch(body, options)(this.fetch, this.basePath);
     };
-    return GamesApi;
+    return GamesV1Api;
 }(BaseAPI));
-exports.GamesApi = GamesApi;
+exports.GamesV1Api = GamesV1Api;
 /**
  * HealthApi - fetch parameter creator
  * @export
@@ -1082,200 +1086,13 @@ var HealthApi = /** @class */ (function (_super) {
 }(BaseAPI));
 exports.HealthApi = HealthApi;
 /**
- * SimilarityApi - fetch parameter creator
- * @export
- */
-var SimilarityApiFetchParamCreator = function (configuration) {
-    return {
-        /**
-         * 두 단어의 유사도를 계산합니다.
-         * @summary Calculate Similarity
-         * @param {SimilarityRequest} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        calculateSimilarityApiSimilarityPost: function (body, options) {
-            if (options === void 0) { options = {}; }
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body', 'Required parameter body was null or undefined when calling calculateSimilarityApiSimilarityPost.');
-            }
-            var localVarPath = "/api/similarity/";
-            var localVarUrlObj = url.parse(localVarPath, true);
-            var localVarRequestOptions = Object.assign({ method: 'POST' }, options);
-            var localVarHeaderParameter = {};
-            var localVarQueryParameter = {};
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            localVarUrlObj.search = null;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            var needsSerialization = ("SimilarityRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body = needsSerialization ? JSON.stringify(body || {}) : (body || "");
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 정답 단어를 추측합니다.
-         * @summary Guess Secret Word
-         * @param {AppApiRoutesSimilarityGuessRequest} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        guessSecretWordApiSimilarityGuessPost: function (body, options) {
-            if (options === void 0) { options = {}; }
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body', 'Required parameter body was null or undefined when calling guessSecretWordApiSimilarityGuessPost.');
-            }
-            var localVarPath = "/api/similarity/guess";
-            var localVarUrlObj = url.parse(localVarPath, true);
-            var localVarRequestOptions = Object.assign({ method: 'POST' }, options);
-            var localVarHeaderParameter = {};
-            var localVarQueryParameter = {};
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            localVarUrlObj.search = null;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            var needsSerialization = ("AppApiRoutesSimilarityGuessRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body = needsSerialization ? JSON.stringify(body || {}) : (body || "");
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    };
-};
-exports.SimilarityApiFetchParamCreator = SimilarityApiFetchParamCreator;
-/**
- * SimilarityApi - functional programming interface
- * @export
- */
-var SimilarityApiFp = function (configuration) {
-    return {
-        /**
-         * 두 단어의 유사도를 계산합니다.
-         * @summary Calculate Similarity
-         * @param {SimilarityRequest} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        calculateSimilarityApiSimilarityPost: function (body, options) {
-            var localVarFetchArgs = (0, exports.SimilarityApiFetchParamCreator)(configuration).calculateSimilarityApiSimilarityPost(body, options);
-            return function (fetch, basePath) {
-                if (fetch === void 0) { fetch = portableFetch; }
-                if (basePath === void 0) { basePath = BASE_PATH; }
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then(function (response) {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response.json();
-                    }
-                    else {
-                        throw response;
-                    }
-                });
-            };
-        },
-        /**
-         * 정답 단어를 추측합니다.
-         * @summary Guess Secret Word
-         * @param {AppApiRoutesSimilarityGuessRequest} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        guessSecretWordApiSimilarityGuessPost: function (body, options) {
-            var localVarFetchArgs = (0, exports.SimilarityApiFetchParamCreator)(configuration).guessSecretWordApiSimilarityGuessPost(body, options);
-            return function (fetch, basePath) {
-                if (fetch === void 0) { fetch = portableFetch; }
-                if (basePath === void 0) { basePath = BASE_PATH; }
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then(function (response) {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response.json();
-                    }
-                    else {
-                        throw response;
-                    }
-                });
-            };
-        },
-    };
-};
-exports.SimilarityApiFp = SimilarityApiFp;
-/**
- * SimilarityApi - factory interface
- * @export
- */
-var SimilarityApiFactory = function (configuration, fetch, basePath) {
-    return {
-        /**
-         * 두 단어의 유사도를 계산합니다.
-         * @summary Calculate Similarity
-         * @param {SimilarityRequest} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        calculateSimilarityApiSimilarityPost: function (body, options) {
-            return (0, exports.SimilarityApiFp)(configuration).calculateSimilarityApiSimilarityPost(body, options)(fetch, basePath);
-        },
-        /**
-         * 정답 단어를 추측합니다.
-         * @summary Guess Secret Word
-         * @param {AppApiRoutesSimilarityGuessRequest} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        guessSecretWordApiSimilarityGuessPost: function (body, options) {
-            return (0, exports.SimilarityApiFp)(configuration).guessSecretWordApiSimilarityGuessPost(body, options)(fetch, basePath);
-        },
-    };
-};
-exports.SimilarityApiFactory = SimilarityApiFactory;
-/**
- * SimilarityApi - object-oriented interface
- * @export
- * @class SimilarityApi
- * @extends {BaseAPI}
- */
-var SimilarityApi = /** @class */ (function (_super) {
-    __extends(SimilarityApi, _super);
-    function SimilarityApi() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * 두 단어의 유사도를 계산합니다.
-     * @summary Calculate Similarity
-     * @param {SimilarityRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimilarityApi
-     */
-    SimilarityApi.prototype.calculateSimilarityApiSimilarityPost = function (body, options) {
-        return (0, exports.SimilarityApiFp)(this.configuration).calculateSimilarityApiSimilarityPost(body, options)(this.fetch, this.basePath);
-    };
-    /**
-     * 정답 단어를 추측합니다.
-     * @summary Guess Secret Word
-     * @param {AppApiRoutesSimilarityGuessRequest} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimilarityApi
-     */
-    SimilarityApi.prototype.guessSecretWordApiSimilarityGuessPost = function (body, options) {
-        return (0, exports.SimilarityApiFp)(this.configuration).guessSecretWordApiSimilarityGuessPost(body, options)(this.fetch, this.basePath);
-    };
-    return SimilarityApi;
-}(BaseAPI));
-exports.SimilarityApi = SimilarityApi;
-/**
  * UsersApi - fetch parameter creator
  * @export
  */
 var UsersApiFetchParamCreator = function (configuration) {
     return {
         /**
-         * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+         * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
          * @summary Check Nickname
          * @param {string} nickname 확인할 닉네임
          * @param {*} [options] Override http request option.
@@ -1314,7 +1131,7 @@ exports.UsersApiFetchParamCreator = UsersApiFetchParamCreator;
 var UsersApiFp = function (configuration) {
     return {
         /**
-         * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+         * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
          * @summary Check Nickname
          * @param {string} nickname 확인할 닉네임
          * @param {*} [options] Override http request option.
@@ -1345,7 +1162,7 @@ exports.UsersApiFp = UsersApiFp;
 var UsersApiFactory = function (configuration, fetch, basePath) {
     return {
         /**
-         * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+         * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
          * @summary Check Nickname
          * @param {string} nickname 확인할 닉네임
          * @param {*} [options] Override http request option.
@@ -1369,7 +1186,7 @@ var UsersApi = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     /**
-     * 닉네임 중복 확인 — 진행 중인 게임(WAITING/ACTIVE) 기준
+     * 닉네임 중복 확인 — 진행 중인 게임(PREGAME/INGAME) 기준
      * @summary Check Nickname
      * @param {string} nickname 확인할 닉네임
      * @param {*} [options] Override http request option.
