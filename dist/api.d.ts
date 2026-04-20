@@ -196,6 +196,12 @@ export interface GuessHistoryItem {
      * @memberof GuessHistoryItem
      */
     similarity: number;
+    /**
+     *
+     * @type {number}
+     * @memberof GuessHistoryItem
+     */
+    wordRank: number;
 }
 /**
  *
@@ -246,6 +252,12 @@ export interface GuessResponse {
      * @memberof GuessResponse
      */
     similarity: number;
+    /**
+     *
+     * @type {number}
+     * @memberof GuessResponse
+     */
+    wordRank: number;
 }
 /**
  *
@@ -364,6 +376,31 @@ export interface ParticipantResult {
 /**
  *
  * @export
+ * @interface SubmissionDetail
+ */
+export interface SubmissionDetail {
+    /**
+     *
+     * @type {string}
+     * @memberof SubmissionDetail
+     */
+    label: string;
+    /**
+     *
+     * @type {number}
+     * @memberof SubmissionDetail
+     */
+    similarity: number;
+    /**
+     *
+     * @type {any}
+     * @memberof SubmissionDetail
+     */
+    submittedAt?: any;
+}
+/**
+ *
+ * @export
  * @interface UpdateEndtimeRequest
  */
 export interface UpdateEndtimeRequest {
@@ -405,6 +442,18 @@ export interface UserInfo {
      * @memberof UserInfo
      */
     bestSimilarity: number;
+    /**
+     *
+     * @type {any}
+     * @memberof UserInfo
+     */
+    bestSubmission?: any;
+    /**
+     *
+     * @type {any}
+     * @memberof UserInfo
+     */
+    latestSubmission?: any;
     /**
      *
      * @type {string}
