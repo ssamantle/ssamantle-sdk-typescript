@@ -1,27 +1,36 @@
 {
   "name": "@ssamantle/sdk-typescript",
   "version": "0.0.4",
-  "description": "swagger client for @ssamantle/sdk-typescript",
+  "description": "swagger client for Semantle",
   "author": "Swagger Codegen Contributors",
   "keywords": [
     "fetch",
     "typescript",
     "swagger-client",
-    "@ssamantle/sdk-typescript"
+    "Semantle"
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
-  "scripts": {
+  "scripts" : {
     "build": "tsc --outDir dist/",
+    "test": "jest",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "portable-fetch": "^3.0.0",
-    "url": "^0.11.4"
+    "isomorphic-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "^8.0.9",
-    "typescript": "^4.0.3"
-  }
-}
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.0",
+    "jest": "^25.4.0",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+  }}
